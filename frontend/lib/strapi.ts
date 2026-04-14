@@ -50,7 +50,6 @@ export async function getStrapiData(url: string) {
     }
 }
 
-getStrapiData('/api/home-page');
 
 // HACEMOS LA FUCNIONALIDAD DE REGISTRO
 export async function registerUserService(userData: object) {
