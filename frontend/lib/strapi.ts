@@ -24,8 +24,8 @@ const QUERY_HOME_PAGE = {
 }
 
 export async function getHomePage() {
-    'use cache'
-    cacheLife({ expire: 60 })
+    // 'use cache'
+    // cacheLife({ expire: 60 })
     const query = qs.stringify(QUERY_HOME_PAGE);
     const response = await getStrapiData(`/api/home-page?${query}`);
     // console.log('-'.repeat(20));
