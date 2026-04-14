@@ -34,17 +34,33 @@ export async function getHomePage() {
     return response;
 }
 export async function getStrapiData(url: string) {
-    console.log(`Fetching from: ${BASE_URL}${url}`);
+    const fullUrl = `${BASE_URL}${url}`;
+    console.log(`[Strapi Fetch] ${fullUrl}`);
+    
     try {
-        const response = await fetch(`${BASE_URL}${url}`);
+        // Añadimos un tiempo de espera de 5 segundos para que el build no se cuelgue
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+        const response = await fetch(fullUrl, {
+            signal: controller.signal,
+            cache: 'no-store' // Evitamos problemas de caché durante el debug del build
+        });
+
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
-            console.warn(`Fetch failed with status ${response.status}`);
+            console.warn(`[Strapi Warn] ${fullUrl} returned ${response.status}`);
             return null;
         }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
+        
+        return await response.json();
+    } catch (error: any) {
+        if (error.name === 'AbortError') {
+            console.error(`[Strapi Error] Timeout fetching ${fullUrl}`);
+        } else {
+            console.error(`[Strapi Error] Failed to fetch ${fullUrl}:`, error.message);
+        }
         return null;
     }
 }

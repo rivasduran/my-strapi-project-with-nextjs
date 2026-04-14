@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  // ACTIVAMOS LOS CACHE COMPONENTS
-  cacheComponents: true,
+  // DESACTIVAMOS OPCIONES EXPERIMENTALES QUE PUEDEN DAR PROBLEMAS EN EL BUILD
+  // cacheComponents: true,
 };
 
 export default nextConfig;
