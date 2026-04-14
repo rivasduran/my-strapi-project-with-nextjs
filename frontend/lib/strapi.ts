@@ -34,13 +34,12 @@ export async function getHomePage() {
     return response;
 }
 export async function getStrapiData(url: string) {
-    // console.log('-'.repeat(20));
-    console.log(url);
-    // console.log('-'.repeat(20));
+    console.log(`Fetching from: ${BASE_URL}${url}`);
     try {
         const response = await fetch(`${BASE_URL}${url}`);
         if (!response.ok) {
-            throw new Error(`HTTP error! status ${response.status}`);
+            console.warn(`Fetch failed with status ${response.status}`);
+            return null;
         }
         const data = await response.json();
         return data;
